@@ -1,2 +1,13 @@
 # rate-limiter-lambda
-Aws lambda that acts as a rate limiter for, for example, a public form.
+
+AWS lambda that acts as a rate limiter and proxy for, say, a public form.
+
+### Tech stack
+
+- Terraform + aws
+- Nodejs 16.x
+  - DotEnv
+  - Axios
+  - Rate Limiter Flexible
+- Jest testing framework
+- Pretty Quick with Husky + pre-commit
