@@ -5,9 +5,11 @@ resource "aws_lambda_function" "rate_limiter" {
   runtime          = var.lambda_runtime
   filename         = "../dist/artifacts/main.zip"
   source_code_hash = filebase64sha256("../dist/artifacts/main.zip")
+  memory_size = 128
+  timeout = 3
   environment {
     variables = {
-      foo = "bar"
+      REMOTE_URL = var.env_remote_url
     }
   }
 }

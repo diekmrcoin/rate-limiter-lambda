@@ -5,11 +5,11 @@ terraform {
       version = "~> 4.27"
     }
   }
-  # backend "s3" {
-  #     bucket = "rll-tf-states"
-  #     key    = "rate-limiter-lambda-state"
-  #     region = "eu-west-3"
-  #   }
+  backend "s3" {
+      bucket = "rll-tf-states"
+      key    = "rate-limiter-lambda-state"
+      region = "eu-west-3"
+    }
   required_version = ">= 1.2.7"
 }
 

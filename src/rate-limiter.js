@@ -1,17 +1,26 @@
-// const { RateLimiterMemory} = require("rate-limiter-flexible");
+const { RateLimiterMemory } = require("rate-limiter-flexible");
 
-// const opts = {
-//   points: 2, // 2 points
-//   duration: 60 * 5, // Per 5 minutes
-// };
+class RateLimiter {
+  constructor() {
+    this.options = {
+      points: 2, // 2 points
+      duration: 60, // seconds
+      blockDuration: 30, // seconds
+    };
+    this.limiter = new RateLimiterMemory(this.options);
+  }
+  async consume(id) {
+    return new Promise((resolve) => {
+      this.limiter
+        .consume(id, 1)
+        .then((rateLimiterRes) => {
+          resolve(true);
+        })
+        .catch((rateLimiterRes) => {
+          resolve(false);
+        });
+    });
+  }
+}
 
-// const rateLimiter = new RateLimiterMemory(opts);
-
-// rateLimiter
-//   .consume(remoteAddress, 1) // consume 2 points
-//   .then((rateLimiterRes) => {
-//     // 2 points consumed
-//   })
-//   .catch((rateLimiterRes) => {
-//     // Not enough points to consume
-//   });
+module.exports = RateLimiter;

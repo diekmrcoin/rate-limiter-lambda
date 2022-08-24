@@ -31,6 +31,26 @@ class HttpResponse {
       isBase64Encoded: false,
     };
   }
+  tooManyRequest() {
+    return {
+      statusCode: 429,
+      body: JSON.stringify({ error: "Too many requests" }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      isBase64Encoded: false,
+    };
+  }
+  internalServerError() {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Internal server error" }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      isBase64Encoded: false,
+    };
+  }
 }
 
 module.exports = HttpResponse;
