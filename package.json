@@ -5,12 +5,18 @@
   "main": "src/main.js",
   "dependencies": {
     "axios": "^0.27.2",
-    "esbuild-linux-64": "^0.15.5"
+    "esbuild-linux-64": "^0.15.5",
+    "rate-limiter-flexible": "^2.3.8"
   },
   "scripts": {
-    "build": "esbuild src/main.js --legal-comments=none --minify --bundle --platform=node --target=node16 --outfile=dist/main.js",
+    "clean": "rimraf dist",
+    "build": "esbuild src/main.js --legal-comments=none --minify --bundle --platform=node --target=node16 --outfile=dist/src/main.js",
+    "zip": "./zip.sh",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "plan": "terraform -chdir=terraform plan",
+    "apply": "terraform -chdir=terraform apply",
+    "deploy": "yarn build && yarn zip && yarn apply"
   },
   "repository": {
     "type": "git",
@@ -26,6 +32,7 @@
     "esbuild": "^0.15.5",
     "husky": "^8.0.1",
     "prettier": "^2.7.1",
-    "pretty-quick": "^3.1.3"
+    "pretty-quick": "^3.1.3",
+    "rimraf": "^3.0.2"
   }
 }

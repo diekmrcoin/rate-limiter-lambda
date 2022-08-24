@@ -4,7 +4,7 @@ variable "aws_region" {
   default     = "eu-west-3"
 }
 
-variable "project" {
+variable "project_name" {
   description = "Project name"
   type        = string
   default     = "rate-limiter-lambda"
