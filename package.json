@@ -1,0 +1,31 @@
+{
+  "name": "rate-limiter-lambda",
+  "description": "Aws lambda that acts as a rate limiter for, for example, a public form.",
+  "version": "0.1.0",
+  "main": "src/main.js",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "esbuild-linux-64": "^0.15.5"
+  },
+  "scripts": {
+    "build": "esbuild src/main.js --legal-comments=none --minify --bundle --platform=node --target=node16 --outfile=dist/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diekmrcoin/rate-limiter-lambda.git"
+  },
+  "author": "Diego Maroto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/diekmrcoin/rate-limiter-lambda/issues"
+  },
+  "homepage": "https://github.com/diekmrcoin/rate-limiter-lambda#readme",
+  "devDependencies": {
+    "esbuild": "^0.15.5",
+    "husky": "^8.0.1",
+    "prettier": "^2.7.1",
+    "pretty-quick": "^3.1.3"
+  }
+}
