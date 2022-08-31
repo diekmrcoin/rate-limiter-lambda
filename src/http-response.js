@@ -4,27 +4,27 @@ class HttpResponse {
   success(body) {
     return {
       statusCode: 200,
-      body: body,
+      body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
       },
       isBase64Encoded: false,
     };
   }
-  badRequest(body) {
+  badRequest(message) {
     return {
       statusCode: 400,
-      body: body,
+      body: JSON.stringify({ error: message }),
       headers: {
         "Content-Type": "application/json",
       },
       isBase64Encoded: false,
     };
   }
-  methodNotAllowed() {
+  methodNotAllowed(method) {
     return {
       statusCode: 405,
-      body: JSON.stringify({ error: "Method not allowed" }),
+      body: JSON.stringify({ error: `The method ${method} is not allowed` }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -41,10 +41,10 @@ class HttpResponse {
       isBase64Encoded: false,
     };
   }
-  internalServerError() {
+  internalServerError(message) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Internal server error" }),
+      body: JSON.stringify({ error: message || "Internal server error" }),
       headers: {
         "Content-Type": "application/json",
       },

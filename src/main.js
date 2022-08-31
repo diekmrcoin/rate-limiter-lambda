@@ -10,7 +10,7 @@ exports.handler = async function (event, context) {
   const method = getMethod(event);
   if (method !== "POST") {
     console.log(`Bad method ${method}`);
-    return httpResponse.methodNotAllowed();
+    return httpResponse.methodNotAllowed(method);
   }
   const sourceIp = getRequesterIp(event);
   const allowed = await limiter.consume(`default-${sourceIp}`);
@@ -18,28 +18,42 @@ exports.handler = async function (event, context) {
     console.log(`Ip ${sourceIp} blocked`);
     return httpResponse.tooManyRequest();
   }
+  const body = getBody(event);
+  if (!body) throw httpResponse.badRequest("Body is empty");
   try {
-    const response = await proxyData(getBody(event));
+    const response = await proxyData(body);
     console.log("Resolved ok");
     return httpResponse.success({ msg: response });
   } catch (err) {
     console.log("Resolved ko");
-    return httpResponse.internalServerError();
+    console.log("Body used: ", JSON.stringify(body, null, 2));
+    return httpResponse.internalServerError("Error calling the form receiver");
   }
 };
 
 async function proxyData(body) {
+  let bodyParsed = JSON.parse(body);
   return new Promise((resolve, reject) => {
-    return axios({
+    axios({
       method: "post",
       url: process.env.REMOTE_URL,
-      data: JSON.parse(body),
+      data: bodyParsed,
     })
       .then(function (response) {
         resolve(response.data);
       })
       .catch(function (error) {
-        console.log("ERROR:", JSON.stringify(error, null, 2));
+        if (error.response) {
+          console.log("Request made and server responded");
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log("The request was made but no response was received");
+          console.log(error.request);
+        } else {
+          console.log("Error:", error.message);
+        }
         reject(error);
       });
   });
