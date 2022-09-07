@@ -3,9 +3,9 @@ const { RateLimiterMemory } = require("rate-limiter-flexible");
 class RateLimiter {
   constructor() {
     this.options = {
-      points: 2, // 2 points
-      duration: 60, // seconds
-      blockDuration: 30, // seconds
+      points: 2, // points
+      duration: 60 * 2, // seconds
+      blockDuration: 60 * 15, // seconds
     };
     this.limiter = new RateLimiterMemory(this.options);
   }
